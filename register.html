@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form Modern</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+        }
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus {
+            border-color: #2193b0;
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            padding: 0 0.4rem;
+            color: #666;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 0.8rem;
+            color: #2193b0;
+        }
+
+        button {
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #2193b0;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h2>Daftar Akun</h2>
+            <p>Buat akun baru Anda</p>
+        </div>
+        <form class="register-form" id="registerForm">
+            <div class="form-group">
+                <input type="text" id="fullname" required placeholder=" ">
+                <label for="fullname">Nama Lengkap</label>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" required placeholder=" ">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="username" required placeholder=" ">
+                <label for="username">Username</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" required placeholder=" ">
+                <label for="password">Password</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="confirmPassword" required placeholder=" ">
+                <label for="confirmPassword">Konfirmasi Password</label>
+            </div>
+            <button type="submit">Daftar</button>
+        </form>
+        <div class="login-link">
+            Sudah punya akun? <a href="index.html">Login di sini</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validasi password
+            if (password !== confirmPassword) {
+                alert('Password tidak cocok!');
+                return;
+            }
+
+            // Ambil data users yang sudah ada
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Cek apakah username sudah ada
+            if (users.some(user => user.username === username)) {
+                alert('Username sudah digunakan!');
+                return;
+            }
+
+            // Tambah user baru
+            users.push({
+                fullname,
+                email,
+                username,
+                password // Dalam aplikasi nyata, password harus di-hash
+            });
+
+            // Simpan ke localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('Registrasi berhasil!');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

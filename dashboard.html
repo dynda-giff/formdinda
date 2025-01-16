@@ -1,0 +1,10 @@
+if (user) {
+    // Simpan status login jika "Ingat saya" dicentang
+    if (document.getElementById('remember').checked) {
+        localStorage.setItem('loggedInUser', username);
+    }
+    // Redirect ke dashboard
+    window.location.href = 'dashboard.html';
+} else {
+    alert('Username atau password salah!');
+}
